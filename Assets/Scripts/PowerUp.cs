@@ -10,13 +10,14 @@ public struct Types
 public class PowerUp : MonoBehaviour {
 
     private Rigidbody _rb;
-    private const float _maxDamage = 200f;
-    private const float _healthAdd = 50f;
-    private const float _speedAdd = 4f;
     private const float _turnAdd = 2f;
     private int _currentPowerUp;
 
-	void Start ()
+    public float _maxDamage;
+    public float _healthAdd;
+    public float _speedAdd;
+
+    void Start ()
     {
         ChooseRandomPowerUp();
 	}
@@ -35,7 +36,9 @@ public class PowerUp : MonoBehaviour {
         if (!(col.gameObject.CompareTag("Player"))) return;
       
         _rb = col.GetComponent<Rigidbody>();
-        
+
+        if (!_rb) return;
+
         switch(_currentPowerUp)
         {
             case (Types.BonusDamage):
@@ -48,12 +51,13 @@ public class PowerUp : MonoBehaviour {
                 BonusSpeed();
                 break;
         }
+
+        gameObject.SetActive(false);
     }
 
     private void ChooseRandomPowerUp()
     {
-        var r = Mathf.Round(Random.Range(0f, 2f));
-        _currentPowerUp = Types.BonusSpeed;
+        _currentPowerUp = (int) Mathf.Round(Random.Range(0f, 2f));
 
         if(_currentPowerUp == Types.BonusDamage) GetComponent<Renderer>().material.color = Color.red;
         else if(_currentPowerUp == Types.BonusHealth) GetComponent<Renderer>().material.color = Color.green;
@@ -62,30 +66,23 @@ public class PowerUp : MonoBehaviour {
 
     private void BonusDamage()
     {        
-        if (!_rb) return;
         TankShooting ts = _rb.GetComponent<TankShooting>();
         ShellExplosion se = ts.m_Shell.GetComponent<ShellExplosion>();
         se.m_MaxDamage = _maxDamage;
-        
-        Destroy(gameObject);
     }
 
     private void BonusHealth()
     {
-        if (!_rb) return;
         TankHealth th = _rb.GetComponent<TankHealth>();
         th.AddHealth(_healthAdd);
-        
-        Destroy(gameObject);
+        if (th.GetHealth() > th.m_StartingHealth) th.SetHealth(th.m_StartingHealth);
+        th.SetHealthUI();
     }
 
     private void BonusSpeed()
     {
-        if (!_rb) return;
         TankMovement tm = _rb.GetComponent<TankMovement>();
         tm.m_Speed += _speedAdd;
         //tm.m_TurnSpeed *= _turnAdd;
-        
-        Destroy(gameObject);
     }
 }

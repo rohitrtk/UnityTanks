@@ -15,8 +15,14 @@ public class TankMovement : MonoBehaviour
     private Rigidbody m_Rigidbody;         
     private float m_MovementInputValue;    
     private float m_TurnInputValue;        
-    private float m_OriginalPitch;         
+    private float m_OriginalPitch;
 
+    private bool _mineOnCooldown;
+    public float MinePlaceCooldownTime;
+    public float CurrentMinePlaceCooldownTime;
+
+    public Rigidbody Mine;
+    public Transform MinePlaceTransform;
 
     private void Awake()
     {
@@ -29,6 +35,9 @@ public class TankMovement : MonoBehaviour
         m_Rigidbody.isKinematic = false;
         m_MovementInputValue = 0f;
         m_TurnInputValue = 0f;
+
+        _mineOnCooldown = false;
+        CurrentMinePlaceCooldownTime = MinePlaceCooldownTime;
     }
 
 
@@ -51,10 +60,34 @@ public class TankMovement : MonoBehaviour
         // Store the player's input and make sure the audio for the engine is playing.
         m_MovementInputValue = Input.GetAxis(m_MovementAxisName);
         m_TurnInputValue = Input.GetAxis(m_TurnAxisName);
-
+        Debug.Log(CurrentMinePlaceCooldownTime);
         EngineAudio();
+
+        if (_mineOnCooldown) Cooldown();
+        else CheckPlaced();
+        
     }
 
+    private void CheckPlaced()
+    {
+        if (!Input.GetButtonUp("PlaceMine") || _mineOnCooldown) return;
+
+        Rigidbody mineInstance = Instantiate(Mine, MinePlaceTransform.position, MinePlaceTransform.rotation)
+            as Rigidbody;
+
+        _mineOnCooldown = true;
+    }
+
+    private void Cooldown()
+    {
+        CurrentMinePlaceCooldownTime -= Time.deltaTime;
+
+        if (CurrentMinePlaceCooldownTime <= 0)
+        {
+            _mineOnCooldown = false;
+            CurrentMinePlaceCooldownTime = MinePlaceCooldownTime;
+        }
+    }
 
     private void EngineAudio()
     {

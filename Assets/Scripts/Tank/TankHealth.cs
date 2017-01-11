@@ -43,7 +43,7 @@ public class TankHealth : MonoBehaviour
     }
 
 
-    private void SetHealthUI()
+    public void SetHealthUI()
     {
         // Adjust the value and colour of the slider.
         m_Slider.value = m_CurrentHealth;
@@ -62,6 +62,16 @@ public class TankHealth : MonoBehaviour
         m_ExplosionAudio.Play();
 
         gameObject.SetActive(false);
+    }
+
+    public float GetHealth()
+    {
+        return m_CurrentHealth;
+    }
+
+    public void SetHealth(float m_CurrentHealth)
+    {
+        this.m_CurrentHealth = m_CurrentHealth;
     }
 
     public void AddHealth(float health)
