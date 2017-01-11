@@ -16,7 +16,6 @@ public class TankManager
     private TankShooting m_Shooting;
     private GameObject m_CanvasGameObject;
 
-
     public void Setup()
     {
         m_Movement = m_Instance.GetComponent<TankMovement>();
@@ -26,6 +25,7 @@ public class TankManager
         m_Movement.m_PlayerNumber = m_PlayerNumber;
         m_Shooting.m_PlayerNumber = m_PlayerNumber;
 
+        // Colour's the text
         m_ColoredPlayerText = "<color=#" + ColorUtility.ToHtmlStringRGB(m_PlayerColor) + ">PLAYER " + m_PlayerNumber + "</color>";
 
         MeshRenderer[] renderers = m_Instance.GetComponentsInChildren<MeshRenderer>();

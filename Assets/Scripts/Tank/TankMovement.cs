@@ -70,7 +70,7 @@ public class TankMovement : MonoBehaviour
 
     private void CheckPlaced()
     {
-        if (!Input.GetButtonUp("PlaceMine") || _mineOnCooldown) return;
+        if (!Input.GetButtonUp("PlaceMine" + m_PlayerNumber) || _mineOnCooldown) return;
 
         Rigidbody mineInstance = Instantiate(Mine, MinePlaceTransform.position, MinePlaceTransform.rotation)
             as Rigidbody;
