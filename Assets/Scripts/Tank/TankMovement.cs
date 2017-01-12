@@ -29,13 +29,19 @@ public class TankMovement : MonoBehaviour
     [HideInInspector]
     public List<Rigidbody> Mines;
 
-    protected void Awake()
+    [HideInInspector]
+    public bool IsPlayer;
+
+    [HideInInspector]
+    public int CurrentGameType;
+
+    private void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
     }
 
 
-    protected void OnEnable ()
+    private void OnEnable ()
     {
         m_Rigidbody.isKinematic = false;
         m_MovementInputValue = 0f;
@@ -46,23 +52,23 @@ public class TankMovement : MonoBehaviour
     }
 
 
-    protected void OnDisable ()
+    private void OnDisable ()
     {
         m_Rigidbody.isKinematic = true;
     }
 
 
-    protected void Start()
+    private void Start()
     {
         m_MovementAxisName = "Vertical" + m_PlayerNumber;
         m_TurnAxisName = "Horizontal" + m_PlayerNumber;
 
         Mines = new List<Rigidbody>();
 
-    m_OriginalPitch = m_MovementAudio.pitch;
+        m_OriginalPitch = m_MovementAudio.pitch;
     }
 
-    protected void Update()
+    private void Update()
     {
         // Store the player's input and make sure the audio for the engine is playing.
         m_MovementInputValue = Input.GetAxis(m_MovementAxisName);
@@ -75,7 +81,7 @@ public class TankMovement : MonoBehaviour
         
     }
 
-    protected void CheckPlaced()
+    private void CheckPlaced()
     {
         if (!Input.GetButtonUp("PlaceMine" + m_PlayerNumber) || _mineOnCooldown) return;
 
@@ -86,7 +92,7 @@ public class TankMovement : MonoBehaviour
         _mineOnCooldown = true;
     }
 
-    protected void Cooldown()
+    private void Cooldown()
     {
         CurrentMinePlaceCooldownTime -= Time.deltaTime;
 
@@ -97,7 +103,7 @@ public class TankMovement : MonoBehaviour
         }
     }
 
-    protected void EngineAudio()
+    private void EngineAudio()
     {
         // Play the correct audio clip based on whether or not the tank is moving and what audio is currently playing.
         if(Mathf.Abs(m_MovementInputValue) < 0.1f && Mathf.Abs(m_TurnInputValue) < 0.1f)
@@ -121,7 +127,7 @@ public class TankMovement : MonoBehaviour
     }
 
 
-    protected void FixedUpdate()
+    private void FixedUpdate()
     {
         // Move and turn the tank.
         Move();
@@ -129,7 +135,7 @@ public class TankMovement : MonoBehaviour
     }
 
 
-    protected void Move()
+    private void Move()
     {
         // Adjust the position of the tank based on the player's input.
         // Creates a vector in the tanks forward direction * by the movement value * by the speed * by delta time
@@ -139,7 +145,7 @@ public class TankMovement : MonoBehaviour
     }
 
 
-    protected void Turn()
+    private void Turn()
     {
         // Adjust the rotation of the tank based on the player's input.
         // # of degrees to turn

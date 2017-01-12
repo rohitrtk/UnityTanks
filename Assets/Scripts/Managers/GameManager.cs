@@ -26,12 +26,21 @@ public class GameManager : MonoBehaviour
     private TankManager m_GameWinner;
     private Scene _currentScene;
 
+    [HideInInspector]
+    public enum GameType { Singleplayer, Twoplayer, Multiplayer }
+
+    public GameType CurrentGameType = 0;
+
     private void Start()
     {
+        _currentScene = SceneManager.GetActiveScene();
+
+        if (_currentScene.name.Equals("Single")) CurrentGameType = GameType.Singleplayer;
+        else if (_currentScene.name.Equals("Main")) CurrentGameType = GameType.Twoplayer;
+        else if (_currentScene.name.Equals("Multi")) CurrentGameType = GameType.Multiplayer;
+        
         m_StartWait = new WaitForSeconds(m_StartDelay);
         m_EndWait = new WaitForSeconds(m_EndDelay);
-
-        _currentScene = SceneManager.GetActiveScene();
 
         SpawnAllTanks();
         SetCameraTargets();
@@ -50,6 +59,8 @@ public class GameManager : MonoBehaviour
 
             m_Tanks[i].m_PlayerNumber = i + 1;
             m_Tanks[i].Setup();
+
+            m_Tanks[i].CurrentGameType = (int)CurrentGameType;
         }
     }
 

@@ -17,8 +17,13 @@ public class TankShooting : MonoBehaviour
     private string m_FireButton;         
     private float m_CurrentLaunchForce;  
     private float m_ChargeSpeed;         
-    private bool m_Fired;                
+    private bool m_Fired;
 
+    [HideInInspector]
+    public bool IsPlayer;
+
+    [HideInInspector]
+    public int CurrentGameType;
 
     private void OnEnable()
     {
