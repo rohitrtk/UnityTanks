@@ -11,13 +11,17 @@ public class TankManager
     [HideInInspector] public GameObject m_Instance;          
     [HideInInspector] public int m_Wins;
 
+    public bool IsPlayer;
+
     private TankMovement m_Movement;       
     private TankShooting m_Shooting;
     private GameObject m_CanvasGameObject;
 
     public void Setup()
     {
-        m_Movement = m_Instance.GetComponent<TankMovement>();
+        if (IsPlayer) m_Movement = m_Instance.GetComponent<TankMovement>();
+        else m_Instance.GetComponent<AIScript>(); 
+
         m_Shooting = m_Instance.GetComponent<TankShooting>();
         m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas>().gameObject;
 
