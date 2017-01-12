@@ -63,4 +63,9 @@ public class TankManager
         m_Instance.SetActive(false);
         m_Instance.SetActive(true);
     }
+
+    public TankMovement getTankMovement()
+    {
+        return m_Movement;
+    }
 }

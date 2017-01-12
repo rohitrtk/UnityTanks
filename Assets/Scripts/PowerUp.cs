@@ -51,8 +51,6 @@ public class PowerUp : MonoBehaviour {
                 BonusSpeed();
                 break;
         }
-
-        gameObject.SetActive(false);
     }
 
     private void ChooseRandomPowerUp()
@@ -69,14 +67,21 @@ public class PowerUp : MonoBehaviour {
         TankShooting ts = _rb.GetComponent<TankShooting>();
         ShellExplosion se = ts.m_Shell.GetComponent<ShellExplosion>();
         se.m_MaxDamage = _maxDamage;
+
+        gameObject.SetActive(false);
     }
 
     private void BonusHealth()
     {
         TankHealth th = _rb.GetComponent<TankHealth>();
+
+        if (th.GetHealth() == th.m_StartingHealth) return;
+
         th.AddHealth(_healthAdd);
         if (th.GetHealth() > th.m_StartingHealth) th.SetHealth(th.m_StartingHealth);
         th.SetHealthUI();
+
+        gameObject.SetActive(false);
     }
 
     private void BonusSpeed()
@@ -84,5 +89,7 @@ public class PowerUp : MonoBehaviour {
         TankMovement tm = _rb.GetComponent<TankMovement>();
         tm.m_Speed += _speedAdd;
         //tm.m_TurnSpeed *= _turnAdd;
+
+        gameObject.SetActive(false);
     }
 }

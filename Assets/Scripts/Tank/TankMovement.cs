@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class TankMovement : MonoBehaviour
 {
@@ -23,6 +25,9 @@ public class TankMovement : MonoBehaviour
 
     public Rigidbody Mine;
     public Transform MinePlaceTransform;
+
+    [HideInInspector]
+    public List<Rigidbody> Mines;
 
     private void Awake()
     {
@@ -52,7 +57,9 @@ public class TankMovement : MonoBehaviour
         m_MovementAxisName = "Vertical" + m_PlayerNumber;
         m_TurnAxisName = "Horizontal" + m_PlayerNumber;
 
-        m_OriginalPitch = m_MovementAudio.pitch;
+        Mines = new List<Rigidbody>();
+
+    m_OriginalPitch = m_MovementAudio.pitch;
     }
 
     private void Update()
@@ -60,7 +67,7 @@ public class TankMovement : MonoBehaviour
         // Store the player's input and make sure the audio for the engine is playing.
         m_MovementInputValue = Input.GetAxis(m_MovementAxisName);
         m_TurnInputValue = Input.GetAxis(m_TurnAxisName);
-        Debug.Log(CurrentMinePlaceCooldownTime);
+        
         EngineAudio();
 
         if (_mineOnCooldown) Cooldown();
@@ -74,6 +81,7 @@ public class TankMovement : MonoBehaviour
 
         Rigidbody mineInstance = Instantiate(Mine, MinePlaceTransform.position, MinePlaceTransform.rotation)
             as Rigidbody;
+        Mines.Add(mineInstance);
 
         _mineOnCooldown = true;
     }

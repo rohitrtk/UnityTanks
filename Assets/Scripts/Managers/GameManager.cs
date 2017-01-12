@@ -11,14 +11,16 @@ public class GameManager : MonoBehaviour
     public CameraControl m_CameraControl;   
     public Text m_MessageText;              
     public GameObject m_TankPrefab;         
-    public TankManager[] m_Tanks;           
+    public TankManager[] m_Tanks;
 
+    public Transform[] PowerupSpawnPoints;
+    public PowerUp PowerUp;
 
     private int m_RoundNumber;              
     private WaitForSeconds m_StartWait;     
     private WaitForSeconds m_EndWait;       
     private TankManager m_RoundWinner;
-    private TankManager m_GameWinner;       
+    private TankManager m_GameWinner;
 
 
     private void Start()
@@ -95,6 +97,10 @@ public class GameManager : MonoBehaviour
     {
         EnableTankControl();
 
+        int sp = Random.Range(0, PowerupSpawnPoints.Length);
+        Rigidbody powerupRB = Instantiate(PowerUp, PowerupSpawnPoints[sp].position, PowerupSpawnPoints[sp].rotation)
+            as Rigidbody;
+
         m_MessageText.text = string.Empty;
 
         while(!OneTankLeft())
@@ -106,6 +112,13 @@ public class GameManager : MonoBehaviour
     private IEnumerator RoundEnding()
     {
         DisableTankControl();
+        foreach(TankManager tm in m_Tanks)
+        {
+            foreach (Rigidbody m in tm.getTankMovement().Mines)
+            {
+                Destroy(m);
+            }
+        }
 
         m_RoundWinner = null;
         m_RoundWinner = GetRoundWinner();
