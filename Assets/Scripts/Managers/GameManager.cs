@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEditor;
+using UnityEditor.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,12 +24,14 @@ public class GameManager : MonoBehaviour
     private WaitForSeconds m_EndWait;       
     private TankManager m_RoundWinner;
     private TankManager m_GameWinner;
-
+    private Scene _currentScene;
 
     private void Start()
     {
         m_StartWait = new WaitForSeconds(m_StartDelay);
         m_EndWait = new WaitForSeconds(m_EndDelay);
+
+        _currentScene = SceneManager.GetActiveScene();
 
         SpawnAllTanks();
         SetCameraTargets();
@@ -70,7 +75,8 @@ public class GameManager : MonoBehaviour
 
         if (m_GameWinner != null)
         {
-            SceneManager.LoadScene(0);
+            //SceneManager.LoadScene(0);
+            SceneManager.LoadScene("Main");
         }
         else
         {
@@ -112,13 +118,18 @@ public class GameManager : MonoBehaviour
     private IEnumerator RoundEnding()
     {
         DisableTankControl();
-        foreach(TankManager tm in m_Tanks)
+        foreach(TankManager tank in m_Tanks)
         {
-            foreach (Rigidbody m in tm.getTankMovement().Mines)
+            foreach(Rigidbody rigidBody in tank.getTankMovement().Mines)
             {
-                Destroy(m);
+                if (rigidBody == null) continue;
+                Destroy(rigidBody.gameObject);
             }
+
+            tank.getTankMovement().Mines.Clear();
         }
+
+        
 
         m_RoundWinner = null;
         m_RoundWinner = GetRoundWinner();

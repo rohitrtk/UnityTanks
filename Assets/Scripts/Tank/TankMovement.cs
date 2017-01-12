@@ -22,7 +22,7 @@ public class TankMovement : MonoBehaviour
     private bool _mineOnCooldown;
     public float MinePlaceCooldownTime;
     public float CurrentMinePlaceCooldownTime;
-
+    
     public Rigidbody Mine;
     public Transform MinePlaceTransform;
 

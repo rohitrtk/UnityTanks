@@ -6,6 +6,7 @@ public class MineHandler : MonoBehaviour
     public Transform m_FireTransform;
     public LayerMask m_TankMask;
     public float m_ExplosionRadius = 5f;
+    public TankMovement tankMovement;
 
     public float PrimeTime;
     public float CountTime;
@@ -47,6 +48,7 @@ public class MineHandler : MonoBehaviour
             shellInstance.velocity = 1 * m_FireTransform.forward;
         }
 
+        tankMovement.Mines.Remove(GetComponent<Rigidbody>());
         Destroy(gameObject);
     }
 }
