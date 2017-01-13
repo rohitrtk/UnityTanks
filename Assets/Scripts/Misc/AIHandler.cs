@@ -6,11 +6,11 @@
 public class AIHandler : MonoBehaviour {
 
     private Transform _transform;
-    private NavMeshAgent _nav;
+    private UnityEngine.AI.NavMeshAgent _nav;
 
 	private void Start ()
     {
-        _nav = GetComponent<NavMeshAgent>();
+        _nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
 
         // Finds a gameobject on Layer 9 (Layer of players) and sets
         // the opposing tank as a the target
