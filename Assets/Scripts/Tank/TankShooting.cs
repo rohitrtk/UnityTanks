@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class TankShooting : MonoBehaviour
 {
+    #region _VARIABLES_
     public int m_PlayerNumber = 1;       
     public Rigidbody m_Shell;            
     public Transform m_FireTransform;    
@@ -14,23 +15,20 @@ public class TankShooting : MonoBehaviour
     public float m_MaxLaunchForce = 30f; 
     public float m_MaxChargeTime = 0.75f;
 
+    [HideInInspector] public bool IsPlayer;
+    [HideInInspector] public int CurrentGameType;
+
     private string m_FireButton;         
     private float m_CurrentLaunchForce;  
     private float m_ChargeSpeed;         
     private bool m_Fired;
-
-    [HideInInspector]
-    public bool IsPlayer;
-
-    [HideInInspector]
-    public int CurrentGameType;
+    #endregion
 
     private void OnEnable()
     {
         m_CurrentLaunchForce = m_MinLaunchForce;
         m_AimSlider.value = m_MinLaunchForce;
     }
-
 
     private void Start()
     {
@@ -70,7 +68,6 @@ public class TankShooting : MonoBehaviour
             Fire();
         }
     }
-
 
     private void Fire()
     {

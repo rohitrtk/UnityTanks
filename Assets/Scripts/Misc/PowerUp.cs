@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Ints that represent what bonus will be given when player picks up powerup
+/// </summary>
 public struct Types
 {
     public const int BonusDamage = 0;
@@ -9,6 +12,7 @@ public struct Types
 
 public class PowerUp : MonoBehaviour {
 
+    #region _VARIABLES_
     private Rigidbody _rb;
     private const float _turnAdd = 2f;
     private int _currentPowerUp;
@@ -16,43 +20,32 @@ public class PowerUp : MonoBehaviour {
     public float _maxDamage;
     public float _healthAdd;
     public float _speedAdd;
+    #endregion
 
-    void Start ()
+    private void Start ()
     {
         ChooseRandomPowerUp();
 	}
 
-    void OnEnable()
-    {
-        ChooseRandomPowerUp();
-    }
-	
-	void Update ()
-    {
-	}
-
-    void OnTriggerEnter(Collider col)
+    private void OnTriggerEnter(Collider col)
     {
         if (!(col.gameObject.CompareTag("Player"))) return;
       
         _rb = col.GetComponent<Rigidbody>();
-
         if (!_rb) return;
 
-        switch(_currentPowerUp)
+        if (_currentPowerUp == Types.BonusDamage) BonusDamage();
+        else if(_currentPowerUp == Types.BonusHealth) BonusHealth();
+        else if(_currentPowerUp == Types.BonusSpeed) BonusSpeed();
+        else
         {
-            case (Types.BonusDamage):
-                BonusDamage();
-                break;
-            case (Types.BonusHealth):
-                BonusHealth();
-                break;
-            case (Types.BonusSpeed):
-                BonusSpeed();
-                break;
+            // Will probably add more power ups
         }
     }
 
+    /// <summary>
+    /// Chooses a random bonus that this power up will contain
+    /// </summary>
     private void ChooseRandomPowerUp()
     {
         _currentPowerUp = (int) Mathf.Round(Random.Range(0f, 2f));
@@ -62,15 +55,21 @@ public class PowerUp : MonoBehaviour {
         else if(_currentPowerUp == Types.BonusSpeed) GetComponent<Renderer>().material.color = Color.blue;
     }
 
+    /// <summary>
+    /// Rework this method!
+    /// </summary>
     private void BonusDamage()
     {        
         TankShooting ts = _rb.GetComponent<TankShooting>();
         ShellExplosion se = ts.m_Shell.GetComponent<ShellExplosion>();
         se.m_MaxDamage = _maxDamage;
 
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
+    /// <summary>
+    /// Acts as a med pack for the player, recovers lost health and caps at their max health
+    /// </summary>
     private void BonusHealth()
     {
         TankHealth th = _rb.GetComponent<TankHealth>();
@@ -81,15 +80,18 @@ public class PowerUp : MonoBehaviour {
         if (th.GetHealth() > th.m_StartingHealth) th.SetHealth(th.m_StartingHealth);
         th.SetHealthUI();
 
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
+    /// <summary>
+    /// Gives the player bonus movespeed and turn speed;
+    /// </summary>
     private void BonusSpeed()
     {
         TankMovement tm = _rb.GetComponent<TankMovement>();
         tm.m_Speed += _speedAdd;
-        //tm.m_TurnSpeed *= _turnAdd;
+        tm.m_TurnSpeed += _turnAdd;
 
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }

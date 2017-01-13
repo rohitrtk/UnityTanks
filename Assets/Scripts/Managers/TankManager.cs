@@ -4,6 +4,7 @@ using UnityEngine;
 [Serializable]
 public class TankManager
 {
+    #region _VARIABLES_
     public Color m_PlayerColor;            
     public Transform m_SpawnPoint;         
     [HideInInspector] public int m_PlayerNumber;             
@@ -11,13 +12,13 @@ public class TankManager
     [HideInInspector] public GameObject m_Instance;          
     [HideInInspector] public int m_Wins;
 
+    [HideInInspector] public bool IsPlayer = true;
+    public int CurrentGameType;
+
     private TankMovement m_Movement;       
     private TankShooting m_Shooting;
     private GameObject m_CanvasGameObject;
-
-    [HideInInspector]
-    public bool IsPlayer = true;
-    public int CurrentGameType;
+    #endregion
 
     public void Setup()
     {
@@ -42,7 +43,6 @@ public class TankManager
         }
     }
 
-
     public void DisableControl()
     {
         m_Movement.enabled = false;
@@ -51,7 +51,6 @@ public class TankManager
         m_CanvasGameObject.SetActive(false);
     }
 
-
     public void EnableControl()
     {
         m_Movement.enabled = true;
@@ -59,7 +58,6 @@ public class TankManager
 
         m_CanvasGameObject.SetActive(true);
     }
-
 
     public void Reset()
     {
@@ -70,6 +68,10 @@ public class TankManager
         m_Instance.SetActive(true);
     }
 
+    /// <summary>
+    /// Returns the movement variable
+    /// </summary>
+    /// <returns></returns>
     public TankMovement getTankMovement()
     {
         return m_Movement;
