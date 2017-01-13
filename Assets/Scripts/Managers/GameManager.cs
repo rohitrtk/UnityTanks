@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     private TankManager m_GameWinner;
     private Scene _currentScene;
 
-    private PowerUp powerupRB;
+    private GameObject powerupRB;
 
     [HideInInspector] public enum GameType { Singleplayer, Twoplayer, Multiplayer }
     #endregion
@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour
 
         // Instantiates a new power up at a random spawn location
         int sp = Random.Range(0, PowerupSpawnPoints.Length);
-        GameObject a = Instantiate(PowerUp, PowerupSpawnPoints[sp].position, PowerupSpawnPoints[sp].rotation)
+        powerupRB = Instantiate(PowerUp, PowerupSpawnPoints[sp].position, PowerupSpawnPoints[sp].rotation)
             as GameObject;
 
         m_MessageText.text = string.Empty;
