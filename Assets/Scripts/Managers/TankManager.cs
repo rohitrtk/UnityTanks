@@ -15,6 +15,8 @@ public class TankManager
     private TankShooting m_Shooting;
     private GameObject m_CanvasGameObject;
 
+    [HideInInspector]
+    public bool IsPlayer = true;
     public int CurrentGameType;
 
     public void Setup()
@@ -23,6 +25,8 @@ public class TankManager
 
         m_Shooting = m_Instance.GetComponent<TankShooting>();
         m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas>().gameObject;
+
+        m_Movement.IsPlayer = IsPlayer;
 
         m_Movement.m_PlayerNumber = m_PlayerNumber;
         m_Shooting.m_PlayerNumber = m_PlayerNumber;

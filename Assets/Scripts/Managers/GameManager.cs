@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < m_Tanks.Length; i++)
         {
             m_Tanks[i].m_Instance =
-                Instantiate(m_TankPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) 
+                Instantiate(m_TankPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation)
                     as GameObject;
 
             m_Tanks[i].m_PlayerNumber = i + 1;
@@ -62,8 +62,12 @@ public class GameManager : MonoBehaviour
 
             m_Tanks[i].CurrentGameType = (int)CurrentGameType;
         }
-    }
 
+        if (CurrentGameType == GameType.Singleplayer)
+        {
+            m_Tanks[m_Tanks.Length - 1].IsPlayer = false;
+        }
+    }
 
     private void SetCameraTargets()
     {
