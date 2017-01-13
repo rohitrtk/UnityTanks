@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class TankMovement : MonoBehaviour
 {
+    #region _VARIABLES_
     public int m_PlayerNumber = 1;         
     public float m_Speed = 12f;            
     public float m_TurnSpeed = 180f;       
@@ -11,6 +11,14 @@ public class TankMovement : MonoBehaviour
     public AudioClip m_EngineIdling;       
     public AudioClip m_EngineDriving;      
     public float m_PitchRange = 0.2f;
+
+    public float MinePlaceCooldownTime;
+    public float CurrentMinePlaceCooldownTime;
+    public Rigidbody Mine;
+    public Transform MinePlaceTransform;
+    [HideInInspector] public List<Rigidbody> Mines;
+    [HideInInspector] public bool IsPlayer;
+    [HideInInspector] public int CurrentGameType;
 
     private string m_MovementAxisName;     
     private string m_TurnAxisName;         
@@ -20,20 +28,12 @@ public class TankMovement : MonoBehaviour
     private float m_OriginalPitch;
 
     private bool _mineOnCooldown;
-    public float MinePlaceCooldownTime;
-    public float CurrentMinePlaceCooldownTime;
-    
-    public Rigidbody Mine;
-    public Transform MinePlaceTransform;
-
-    [HideInInspector]
-    public List<Rigidbody> Mines;
+    #endregion
 
     private void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
     }
-
 
     private void OnEnable ()
     {
@@ -45,12 +45,10 @@ public class TankMovement : MonoBehaviour
         CurrentMinePlaceCooldownTime = MinePlaceCooldownTime;
     }
 
-
     private void OnDisable ()
     {
         m_Rigidbody.isKinematic = true;
     }
-
 
     private void Start()
     {
@@ -59,7 +57,7 @@ public class TankMovement : MonoBehaviour
 
         Mines = new List<Rigidbody>();
 
-    m_OriginalPitch = m_MovementAudio.pitch;
+        m_OriginalPitch = m_MovementAudio.pitch;
     }
 
     private void Update()
@@ -120,14 +118,12 @@ public class TankMovement : MonoBehaviour
         }
     }
 
-
     private void FixedUpdate()
     {
         // Move and turn the tank.
         Move();
         Turn();
     }
-
 
     private void Move()
     {
@@ -137,7 +133,6 @@ public class TankMovement : MonoBehaviour
         Vector3 movement = transform.forward * m_MovementInputValue * m_Speed * Time.deltaTime;
         m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
     }
-
 
     private void Turn()
     {

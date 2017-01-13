@@ -45,13 +45,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\ButtonManager.cs" />
      <Compile Include="Assets\Scripts\Camera\CameraControl.cs" />
      <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
      <Compile Include="Assets\Scripts\Managers\TankManager.cs" />
-     <Compile Include="Assets\Scripts\MineHandler.cs" />
-     <Compile Include="Assets\Scripts\PowerUp.cs" />
-     <Compile Include="Assets\Scripts\PowerUpSpinner.cs" />
+     <Compile Include="Assets\Scripts\Misc\AIHandler.cs" />
+     <Compile Include="Assets\Scripts\Misc\ButtonManager.cs" />
+     <Compile Include="Assets\Scripts\Misc\MineHandler.cs" />
+     <Compile Include="Assets\Scripts\Misc\PowerUp.cs" />
+     <Compile Include="Assets\Scripts\Misc\PowerUpSpinner.cs" />
      <Compile Include="Assets\Scripts\Shell\ShellExplosion.cs" />
      <Compile Include="Assets\Scripts\Tank\TankHealth.cs" />
      <Compile Include="Assets\Scripts\Tank\TankMovement.cs" />

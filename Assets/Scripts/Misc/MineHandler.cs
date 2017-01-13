@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// This class handles the explosions for the mines; each mine will have an instance of this class
+/// </summary>
 public class MineHandler : MonoBehaviour
 {
+    #region _VARIABLES_
     public Rigidbody m_Shell;
     public Transform m_FireTransform;
     public LayerMask m_TankMask;
@@ -11,6 +15,7 @@ public class MineHandler : MonoBehaviour
     public float PrimeTime;
     public float CountTime;
     public bool Primed = false;
+    #endregion
 
     private void Start()
     {
