@@ -17,7 +17,6 @@ public class TankMovement : MonoBehaviour
     public Rigidbody Mine;
     public Transform MinePlaceTransform;
     [HideInInspector] public List<Rigidbody> Mines;
-    [HideInInspector] public bool IsPlayer;
     [HideInInspector] public int CurrentGameType;
 
     private string m_MovementAxisName;     

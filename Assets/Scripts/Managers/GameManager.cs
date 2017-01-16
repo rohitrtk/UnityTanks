@@ -65,11 +65,6 @@ public class GameManager : MonoBehaviour
 
             m_Tanks[i].CurrentGameType = (int)CurrentGameType;
         }
-
-        if (CurrentGameType == GameType.Singleplayer)
-        {
-            m_Tanks[m_Tanks.Length - 1].IsPlayer = false;
-        }
     }
 
     private void SetCameraTargets()

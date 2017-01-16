@@ -92,7 +92,9 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Camera\CameraControl.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\SinglePlayerManager.cs" />
     <Compile Include="Assets\Scripts\Managers\TankManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\TwoPlayerManager.cs" />
     <Compile Include="Assets\Scripts\Misc\AIHandler.cs" />
     <Compile Include="Assets\Scripts\Misc\ButtonManager.cs" />
     <Compile Include="Assets\Scripts\Misc\MineHandler.cs" />
