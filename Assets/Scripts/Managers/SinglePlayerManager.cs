@@ -1,47 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
-public class SinglePlayerManager : MonoBehaviour
+public class SinglePlayerManager : GameManager
 {
-    #region _VARIABLES_
-    public int m_NumRoundsToWin = 5;
-    public float m_StartDelay = 3f;
-    public float m_EndDelay = 3f;
-    public CameraControl m_CameraControl;
-    public Text m_MessageText;
-    public GameObject m_TankPrefab;
-    public TankManager[] m_Tanks;
-
-    public Transform[] PowerupSpawnPoints;
-    public GameObject PowerUp;
-
-    public GameType CurrentGameType = 0;
-
-    private int m_RoundNumber;
-    private WaitForSeconds m_StartWait;
-    private WaitForSeconds m_EndWait;
-    private TankManager m_RoundWinner;
-    private TankManager m_GameWinner;
-    private Scene _currentScene;
-
-    private GameObject powerupRB;
-
-    [HideInInspector]
-    public enum GameType { Singleplayer, Twoplayer, Multiplayer }
-    #endregion
+    public GameObject AIPrefab;
+    public AIHandler[] AITanks;
 
     #region _SETUP_
-    private void Start()
+    public override void Start()
     {
-        // Set the current scene to the active scene
-        _currentScene = SceneManager.GetActiveScene();
-
-        // Sets the game type based on the active scene
-        if (_currentScene.name.Equals("Single")) CurrentGameType = GameType.Singleplayer;
-        else if (_currentScene.name.Equals("Main")) CurrentGameType = GameType.Twoplayer;
-        else if (_currentScene.name.Equals("Multi")) CurrentGameType = GameType.Multiplayer;
+        CurrentGameType = GameType.Singleplayer;
 
         m_StartWait = new WaitForSeconds(m_StartDelay);
         m_EndWait = new WaitForSeconds(m_EndDelay);
@@ -53,7 +22,7 @@ public class SinglePlayerManager : MonoBehaviour
         StartCoroutine(GameLoop());
     }
 
-    private void SpawnAllTanks()
+    public override void SpawnAllTanks()
     {
         for (int i = 0; i < m_Tanks.Length; i++)
         {
@@ -68,7 +37,7 @@ public class SinglePlayerManager : MonoBehaviour
         }
     }
 
-    private void SetCameraTargets()
+    public override void SetCameraTargets()
     {
         Transform[] targets = new Transform[m_Tanks.Length];
 
@@ -82,7 +51,7 @@ public class SinglePlayerManager : MonoBehaviour
     #endregion
 
     #region _LOOP_CONTROL_
-    private IEnumerator GameLoop()
+    public override IEnumerator GameLoop()
     {
         yield return StartCoroutine(RoundStarting());
         yield return StartCoroutine(RoundPlaying());
@@ -99,7 +68,7 @@ public class SinglePlayerManager : MonoBehaviour
         }
     }
 
-    private IEnumerator RoundStarting()
+    public override IEnumerator RoundStarting()
     {
         ResetAllTanks();
         DisableTankControl();
@@ -112,7 +81,7 @@ public class SinglePlayerManager : MonoBehaviour
         yield return m_StartWait;
     }
 
-    private IEnumerator RoundPlaying()
+    public override IEnumerator RoundPlaying()
     {
         EnableTankControl();
 
@@ -129,7 +98,7 @@ public class SinglePlayerManager : MonoBehaviour
         }
     }
 
-    private IEnumerator RoundEnding()
+    public override IEnumerator RoundEnding()
     {
         DisableTankControl();
 
@@ -162,7 +131,7 @@ public class SinglePlayerManager : MonoBehaviour
     }
     #endregion
 
-    private bool OneTankLeft()
+    public override bool OneTankLeft()
     {
         int numTanksLeft = 0;
 
@@ -175,7 +144,7 @@ public class SinglePlayerManager : MonoBehaviour
         return numTanksLeft <= 1;
     }
 
-    private TankManager GetRoundWinner()
+    public override TankManager GetRoundWinner()
     {
         for (int i = 0; i < m_Tanks.Length; i++)
         {
@@ -186,7 +155,7 @@ public class SinglePlayerManager : MonoBehaviour
         return null;
     }
 
-    private TankManager GetGameWinner()
+    public override TankManager GetGameWinner()
     {
         for (int i = 0; i < m_Tanks.Length; i++)
         {
@@ -197,7 +166,7 @@ public class SinglePlayerManager : MonoBehaviour
         return null;
     }
 
-    private string EndMessage()
+    public override string EndMessage()
     {
         string message = "DRAW!";
 
@@ -217,7 +186,7 @@ public class SinglePlayerManager : MonoBehaviour
         return message;
     }
 
-    private void ResetAllTanks()
+    public override void ResetAllTanks()
     {
         for (int i = 0; i < m_Tanks.Length; i++)
         {
@@ -225,7 +194,7 @@ public class SinglePlayerManager : MonoBehaviour
         }
     }
 
-    private void EnableTankControl()
+    public override void EnableTankControl()
     {
         for (int i = 0; i < m_Tanks.Length; i++)
         {
@@ -233,7 +202,7 @@ public class SinglePlayerManager : MonoBehaviour
         }
     }
 
-    private void DisableTankControl()
+    public override void DisableTankControl()
     {
         for (int i = 0; i < m_Tanks.Length; i++)
         {

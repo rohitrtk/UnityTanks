@@ -21,20 +21,21 @@ public class TankMovement : MonoBehaviour
 
     private string m_MovementAxisName;     
     private string m_TurnAxisName;         
-    private Rigidbody m_Rigidbody;         
     private float m_MovementInputValue;    
-    private float m_TurnInputValue;        
-    private float m_OriginalPitch;
+    private float m_TurnInputValue;
+            
+    protected Rigidbody m_Rigidbody;         
+    protected float m_OriginalPitch;
+    protected bool _mineOnCooldown;
 
-    private bool _mineOnCooldown;
     #endregion
 
-    private void Awake()
+    public virtual void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
     }
 
-    private void OnEnable ()
+    public virtual void OnEnable ()
     {
         m_Rigidbody.isKinematic = false;
         m_MovementInputValue = 0f;
@@ -44,12 +45,12 @@ public class TankMovement : MonoBehaviour
         CurrentMinePlaceCooldownTime = MinePlaceCooldownTime;
     }
 
-    private void OnDisable ()
+    public virtual void OnDisable ()
     {
         m_Rigidbody.isKinematic = true;
     }
 
-    private void Start()
+    public virtual void Start()
     {
         m_MovementAxisName = "Vertical" + m_PlayerNumber;
         m_TurnAxisName = "Horizontal" + m_PlayerNumber;
@@ -59,7 +60,7 @@ public class TankMovement : MonoBehaviour
         m_OriginalPitch = m_MovementAudio.pitch;
     }
 
-    private void Update()
+    public virtual void Update()
     {
         // Store the player's input and make sure the audio for the engine is playing.
         m_MovementInputValue = Input.GetAxis(m_MovementAxisName);
@@ -72,7 +73,7 @@ public class TankMovement : MonoBehaviour
         
     }
 
-    private void CheckPlaced()
+    public virtual void CheckPlaced()
     {
         if (!Input.GetButtonUp("PlaceMine" + m_PlayerNumber) || _mineOnCooldown) return;
 
@@ -83,7 +84,7 @@ public class TankMovement : MonoBehaviour
         _mineOnCooldown = true;
     }
 
-    private void Cooldown()
+    public virtual void Cooldown()
     {
         CurrentMinePlaceCooldownTime -= Time.deltaTime;
 
@@ -94,7 +95,7 @@ public class TankMovement : MonoBehaviour
         }
     }
 
-    private void EngineAudio()
+    public virtual void EngineAudio()
     {
         // Play the correct audio clip based on whether or not the tank is moving and what audio is currently playing.
         if(Mathf.Abs(m_MovementInputValue) < 0.1f && Mathf.Abs(m_TurnInputValue) < 0.1f)
@@ -117,14 +118,14 @@ public class TankMovement : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    public void FixedUpdate()
     {
         // Move and turn the tank.
         Move();
         Turn();
     }
 
-    private void Move()
+    public void Move()
     {
         // Adjust the position of the tank based on the player's input.
         // Creates a vector in the tanks forward direction * by the movement value * by the speed * by delta time
@@ -133,7 +134,7 @@ public class TankMovement : MonoBehaviour
         m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
     }
 
-    private void Turn()
+    public void Turn()
     {
         // Adjust the rotation of the tank based on the player's input.
         // # of degrees to turn

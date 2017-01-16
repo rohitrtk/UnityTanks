@@ -101,6 +101,7 @@
     <Compile Include="Assets\Scripts\Misc\PowerUp.cs" />
     <Compile Include="Assets\Scripts\Misc\PowerUpSpinner.cs" />
     <Compile Include="Assets\Scripts\Shell\ShellExplosion.cs" />
+    <Compile Include="Assets\Scripts\Tank\AIMovement.cs" />
     <Compile Include="Assets\Scripts\Tank\TankHealth.cs" />
     <Compile Include="Assets\Scripts\Tank\TankMovement.cs" />
     <Compile Include="Assets\Scripts\Tank\TankShooting.cs" />

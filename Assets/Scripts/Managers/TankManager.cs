@@ -70,7 +70,7 @@ public class TankManager
     /// Returns the movement variable
     /// </summary>
     /// <returns></returns>
-    public TankMovement getTankMovement()
+    public virtual TankMovement getTankMovement()
     {
         return m_Movement;
     }
